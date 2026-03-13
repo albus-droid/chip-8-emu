@@ -14,3 +14,4 @@ class Chip8 {
         uint32_t video[64 * 32]{};
         uint16_t opcode;
 };
+
