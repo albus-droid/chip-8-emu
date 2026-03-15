@@ -1,17 +1,9 @@
-#include <cstdint>
+#include "chip8.h"
+#include <iostream>
 
-class Chip8 {
-    public:
-        uint8_t registers[16]{};
-        uint8_t memory[4096]{};
-        uint16_t index{};
-        uint8_t sp{};
-        uint16_t pc{};
-        uint16_t stack[16]{};
-        uint8_t delayTimer{};
-        uint8_t soundTimer{};
-        uint8_t keypad[16]{};
-        uint32_t video[64 * 32]{};
-        uint16_t opcode;
-};
+const unsigned int START_ADDRESS = 0x200;
 
+Chip8::Chip8() {
+    program_counter = START_ADDRESS;
+    std::cout << "Chip8 initialized. PC = 0x" << std::hex << program_counter << std::endl;
+}
