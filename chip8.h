@@ -15,4 +15,6 @@ class Chip8 {
         bool keys_[16]{};
         bool display_[64][32]{};
         uint16_t opcode{0};
+
+        void LoadROM(const char* filename);
 };
