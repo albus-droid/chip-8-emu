@@ -1,8 +1,11 @@
-const unsigned int FONTSET_SIZE = 80;
+#pragma once
+#include <cstdint>
 
-const unsigend int FONTSET_START_ADDRESS = 0x50;
+const unsigned int FONTSET_SIZE = 80; // 16 x 5
 
-uint8_t fontset[FONTSET_SIZE] =
+const unsigned int FONTSET_START_ADDRESS = 0x50;
+
+inline const uint8_t fontset[FONTSET_SIZE] =
 {
 	0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
 	0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -21,11 +24,3 @@ uint8_t fontset[FONTSET_SIZE] =
 	0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
 	0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
-
-Chip8::Chip8()
-{
-	for (unsigned int i = 0; i < FONTSET_SIZE; i++)
-	{
-		memory[FONTSET_START_ADDRESS + i] = fontset[i];
-	}
-}

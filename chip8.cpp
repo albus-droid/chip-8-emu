@@ -1,4 +1,6 @@
 #include "chip8.h"
+#include "fontset.h"
+
 #include <iostream>
 #include <fstream>
 
@@ -6,6 +8,11 @@ const unsigned int START_ADDRESS = 0x200;
 
 Chip8::Chip8() {
     program_counter = START_ADDRESS;
+
+    for (unsigned int i = 0; i < FONTSET_SIZE; i++) {
+        memory_[FONTSET_START_ADDRESS + i] = fontset[i];
+    }
+
     std::cout << "Chip8 initialized. PC = 0x" << std::hex << program_counter << std::endl;
 }
 
