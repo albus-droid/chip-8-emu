@@ -18,6 +18,12 @@ int main(int argc, char *argv[]) {
     }
     std::cout << std::endl;
 
+    std::cout << "First 10 opcodes:" << std::endl;
+    for (int i = 0; i < 10; i++) {
+        chip8.Cycle();
+    }
+    std::cout << std::endl;
+
     std::cout << "Fontset loaded:" << std::endl;
 
     const char* labels = "0123456789ABCDEF";

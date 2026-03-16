@@ -38,3 +38,10 @@ void Chip8::LoadROM(const char* filename) {
 
     std::cout << "Loaded ROM: " << filename << " (" << rom_size << " bytes)" << std::endl;
 }
+
+void Chip8::Cycle() {
+    opcode_ = (memory_[program_counter] << 8u) | memory_[program_counter + 1];
+    program_counter += 2;
+
+    std::cout << "Opcode: 0x" << std::hex << std::uppercase << opcode_ << std::endl;
+}

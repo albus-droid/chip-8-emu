@@ -14,7 +14,8 @@ class Chip8 {
         uint8_t sound_timer{};
         bool keys_[16]{};
         bool display_[64][32]{};
-        uint16_t opcode{0};
+        uint16_t opcode_{0};
 
         void LoadROM(const char* filename);
+        void Cycle();
 };
