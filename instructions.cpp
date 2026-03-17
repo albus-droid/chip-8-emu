@@ -150,3 +150,10 @@ void Chip8::OP_Bnnn() {
   uint16_t address = opcode_ & 0x0FFFu;
   program_counter_ = register_[0] + address;
 }
+
+void Chip8::OP_Cxkk() {
+  uint8_t x = (opcode_ & 0x0F00u) >> 8;
+  uint8_t kk = opcode_ & 0x00FFu;
+
+  register_[x] = dist_(rng_) & kk;
+}
