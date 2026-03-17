@@ -1,9 +1,16 @@
 #pragma once
 #include <cstdint>
+#include <random>
+
 
 class Chip8 {
     public:
         Chip8();
+        void LoadROM(const char* filename);
+        void Cycle();
+
+    // private:
+        // Chip-8 registers and memory
         uint8_t register_[16]{};
         uint8_t memory_[4096];
         uint16_t index_register{0};
@@ -16,9 +23,7 @@ class Chip8 {
         bool display_[64][32]{};
         uint16_t opcode_{0};
 
-        void LoadROM(const char* filename);
-        void Cycle();
-
+        //opcodes
         void OP_00E0();
         void OP_00EE();
         void OP_1nnn();
@@ -53,4 +58,8 @@ class Chip8 {
         void OP_Fx33();
         void OP_Fx55();
         void OP_Fx65();
+
+        // Random number generator
+        std::default_random_engine rng_;
+        std::uniform_int_distribution<uint8_t> dist_;
 };

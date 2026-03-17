@@ -3,11 +3,18 @@
 
 #include <iostream>
 #include <fstream>
+#include <random>
+#include <chrono>
 
 const unsigned int START_ADDRESS = 0x200;
 
-Chip8::Chip8() {
+Chip8::Chip8()
+    : rng_(std::chrono::system_clock::now().time_since_epoch().count())
+{
     program_counter = START_ADDRESS;
+
+    //RNG
+    dist_ = std::uniform_int_distribution<uint8_t>(0, 255U);
 
     for (unsigned int i = 0; i < FONTSET_SIZE; i++) {
         memory_[FONTSET_START_ADDRESS + i] = fontset[i];

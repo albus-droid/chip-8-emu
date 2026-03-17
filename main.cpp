@@ -39,5 +39,11 @@ int main(int argc, char *argv[]) {
         }
         std::cout << std::endl;
     }
+
+    std::cout << "Random Generator: " << std::endl;
+    for (int i = 0; i < 10; i++) {
+        std::cout << chip8.dist_(chip8.rng_) << " ";
+    }
+    std::cout << std::endl;
     return 0;
 }
