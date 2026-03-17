@@ -131,3 +131,22 @@ void Chip8::OP_8xyE() {
   register_[0xF] = (register_[x] & 0x01u) >> 0;
   register_[x] <<= 1;
 }
+
+void Chip8::OP_9xy0() {
+  uint8_t x = (opcode_ & 0x0F00u) >> 8;
+  uint8_t y = (opcode_ & 0x00F0u) >> 4;
+
+  if (register_[x] != register_[y]) {
+      program_counter_ += 2;
+  }
+}
+
+void Chip8::OP_Annn() {
+  uint16_t address = opcode_ & 0x0FFFu;
+  index_ = address;
+}
+
+void Chip8::OP_Bnnn() {
+  uint16_t address = opcode_ & 0x0FFFu;
+  program_counter_ = register_[0] + address;
+}
