@@ -5,7 +5,7 @@ const unsigned int FONTSET_SIZE = 80; // 16 x 5
 
 const unsigned int FONTSET_START_ADDRESS = 0x50;
 
-inline const uint8_t fontset[FONTSET_SIZE] =
+constexpr const uint8_t fontset[FONTSET_SIZE] =
 {
 	0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
 	0x20, 0x60, 0x20, 0x20, 0x70, // 1

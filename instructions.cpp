@@ -1,29 +1,29 @@
 #include "chip8.h"
 
 void Chip8::OP_00E0() {
-   memset(video, 0, sizeof(video))
+   memset(display_, 0, sizeof(display_));
 }
 
 void Chip8::OP_00EE() {
-   pc = stack[--sp];
+   program_counter = stack_[--stack_pointer];
 }
 
 void Chip8::OP_1nnn() {
   uint16_t address = opcode_ & 0x0FFFu;
-  pc = address;
+  program_counter = address;
 }
 
 void Chip8::OP_2nnn() {
   uint16_t address = opcode_ & 0x0FFFu;
-  stack[sp++] = pc;
-  pc = address;
+  stack_[stack_pointer++] = program_counter;
+  program_counter = address;
 }
 
 void Chip8::OP_3xkk() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
   uint8_t kk = opcode_ & 0x00FFu;
   if (register_[x] == kk) {
-    pc += 2;
+    program_counter += 2;
   }
 }
 
@@ -31,7 +31,7 @@ void Chip8::OP_4xkk() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
   uint8_t kk = opcode_ & 0x00FFu;
   if (register_[x] != kk) {
-    pc += 2;
+    program_counter += 2;
   }
 }
 
@@ -39,7 +39,7 @@ void Chip8::OP_5xy0() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
   uint8_t y = (opcode_ & 0x00F0u) >> 4;
   if (register_[x] == register_[y]) {
-    pc += 2;
+    program_counter += 2;
   }
 }
 
@@ -137,18 +137,18 @@ void Chip8::OP_9xy0() {
   uint8_t y = (opcode_ & 0x00F0u) >> 4;
 
   if (register_[x] != register_[y]) {
-      program_counter_ += 2;
+      program_counter += 2;
   }
 }
 
 void Chip8::OP_Annn() {
   uint16_t address = opcode_ & 0x0FFFu;
-  index_ = address;
+  index_register = address;
 }
 
 void Chip8::OP_Bnnn() {
   uint16_t address = opcode_ & 0x0FFFu;
-  program_counter_ = register_[0] + address;
+  program_counter = register_[0] + address;
 }
 
 void Chip8::OP_Cxkk() {
