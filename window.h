@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL.h>
+#include <cstdint>
 #include <iostream>
 
 class Window {
@@ -8,6 +9,7 @@ class Window {
         Window(char const* title, int windowWidth, int windowHeight, int textureWidth, int textureHeight);
         ~Window();
         void UpdateWindow(void const* buffer, int pitch);
+        bool ProcessInput(uint8_t* keys);
     private:
         SDL_Window* window;
         SDL_Renderer* renderer;
