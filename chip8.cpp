@@ -53,5 +53,10 @@ void Chip8::Cycle() {
     opcode_ = (memory_[program_counter] << 8u) | memory_[program_counter + 1];
     program_counter += 2;
 
+    ((*this).*(table[(opcode_ & 0xF000u) >> 12u]))();
+
+    if (delay_timer > 0) delay_timer--;
+    if (sound_timer > 0) sound_timer--;
+
     std::cout << "Opcode: 0x" << std::hex << std::uppercase << opcode_ << std::endl;
 }
