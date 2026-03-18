@@ -51,6 +51,12 @@ void Chip8::OP_6xkk() {
   register_[x] = kk;
 }
 
+void Chip8::OP_7xkk() {
+    uint8_t x = (opcode_ & 0x0F00u) >> 8;
+    uint8_t kk = opcode_ & 0x00FFu;
+    register_[x] += kk;
+}
+
 void Chip8::OP_8xy0() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
   uint8_t y = (opcode_ & 0x00F0u) >> 4;
