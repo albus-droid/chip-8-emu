@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <random>
 
+const unsigned DISPLAY_WIDTH = 64;
+const unsigned DISPLAY_HEIGHT = 32;
 
 class Chip8 {
     public:
@@ -20,7 +22,7 @@ class Chip8 {
         uint8_t delay_timer{0};
         uint8_t sound_timer{};
         bool keys_[16]{};
-        bool display_[64][32]{};
+        bool display_[DISPLAY_HEIGHT][DISPLAY_WIDTH]{};
         uint16_t opcode_{0};
 
         //opcodes
