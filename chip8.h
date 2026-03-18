@@ -64,4 +64,20 @@ class Chip8 {
         // Random number generator
         std::default_random_engine rng_;
         std::uniform_int_distribution<uint8_t> dist_;
+
+        // set up function pointer table for opcodes
+        void TableOpCode();
+        void Table0();
+        void Table8();
+        void TableE();
+        void TableF();
+
+        void OP_NULL();
+
+        typedef void (Chip8::*Chip8Func)();
+        Chip8Func table[0xF + 1];
+        Chip8Func table0[0xE + 1];
+        Chip8Func table8[0xE + 1];
+        Chip8Func tableE[0xE + 1];
+        Chip8Func tableF[0x65 + 1];
 };

@@ -20,6 +20,9 @@ Chip8::Chip8()
         memory_[FONTSET_START_ADDRESS + i] = fontset[i];
     }
 
+    // Create the table
+    TableOpCode();
+
     std::cout << "Chip8 initialized. PC = 0x" << std::hex << program_counter << std::endl;
 }
 
