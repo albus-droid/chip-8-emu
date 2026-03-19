@@ -2,7 +2,7 @@
 
 A CHIP-8 emulator written in C++17 from scratch.
 
-![horseyJump](docs/horse-jump.gif)
+![horseyJump](docs/horsey-jump.gif)
 
 ## What is CHIP-8?
 
