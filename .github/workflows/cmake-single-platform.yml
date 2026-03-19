@@ -1,14 +1,12 @@
-name: CMake Build and Release
+name: CI and Release
 
 on:
   push:
     branches: [ "main" ]
-    tags: [ "v*.*.*" ] # Triggers on tags like v1.0.1
+    tags:
+      - 'v*'
   pull_request:
     branches: [ "main" ]
-
-permissions:
-  contents: write # CRITICAL: Allows the action to create/edit releases
 
 env:
   BUILD_TYPE: Release
@@ -17,24 +15,21 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install SDL2
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libsdl2-dev
+      - name: Install SDL2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
 
-    - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      - name: Configure CMake
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-    - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    # This step only runs if a TAG was pushed
-    - name: Create and Upload Release
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{github.workspace}}/build/chip8
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{github.workspace}}/build/chip8
