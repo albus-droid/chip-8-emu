@@ -2,6 +2,8 @@
 
 A CHIP-8 emulator written in C++17 from scratch.
 
+![horseyJump](docs/horse-jump.gif)
+
 ## What is CHIP-8?
 
 CHIP-8 is an interpreted programming language developed in the mid-1970s for 8-bit microcomputers. It was designed to make game development easier and runs on a simple virtual machine with 16 registers, 4KB of memory, and a 64×32 pixel monochrome display.
