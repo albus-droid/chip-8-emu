@@ -31,7 +31,7 @@ int main(int argc,char **argv) {
             uint32_t pixels[32][64];
             for (int y = 0; y < 32; y++)
                 for (int x = 0; x < 64; x++)
-                    pixels[y][x] = chip8.display_[y][x] ? 0xFFFFFFFF : 0x00000000 ;
+                    pixels[y][x] = chip8.display_[y][x] ? 0x00FF00FF : 0x00000000 ;
             window.UpdateWindow(pixels, sizeof(pixels[0][0]) * 64);
         }
     }
