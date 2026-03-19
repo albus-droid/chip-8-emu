@@ -25,7 +25,7 @@ int main(int argc,char **argv) {
         quit = window.ProcessInput(chip8.keys_);
         auto current_time = std::chrono::high_resolution_clock::now();
         float delta = std::chrono::duration<float, std::chrono::milliseconds::period>(current_time - last_time).count();
-        if (delta >= 1 ) {
+        if (delta >= 10 ) {
             last_time = current_time;
             chip8.Cycle();
             uint32_t pixels[32][64];

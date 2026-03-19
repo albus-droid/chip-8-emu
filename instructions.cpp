@@ -165,23 +165,25 @@ void Chip8::OP_Dxyn() {
   uint8_t y = (opcode_ & 0x00F0u) >> 4;
   uint8_t h = opcode_ & 0x000Fu;
 
+  uint8_t rows = (h == 0) ? 16 : h;
+  uint8_t cols = (h == 0) ? 2 : 1;
+
   uint8_t wrap_x = register_[x] % DISPLAY_WIDTH;
   uint8_t wrap_y = register_[y] % DISPLAY_HEIGHT;
 
   register_[0xF] = 0;
 
-  for (uint8_t i = 0; i < h; ++i) {
-    uint8_t sprite = memory_[index_register + i];
-    for (uint8_t j = 0; j < 8; ++j) {
-        uint8_t sprite_pixel = sprite & (0x80u >> j);
-        bool* screen_pixel = &display_[(wrap_y + i) % DISPLAY_HEIGHT][(wrap_x + j) % DISPLAY_WIDTH];
-        if (sprite_pixel) {
-            if (*screen_pixel == true) {
-                register_[0xF] = 1;
-            }
-            *screen_pixel ^= true;
-        }
-    }
+  for (uint8_t i = 0; i < rows; ++i) {
+      for (uint8_t b = 0; b < cols; ++b) {
+          uint8_t sprite = memory_[index_register + i * cols + b];
+          for (uint8_t j = 0; j < 8; ++j) {
+              if(sprite & (0x80u >> j)) {
+              bool* screen_pixel = &display_[(wrap_y + i) % DISPLAY_HEIGHT][(wrap_x + (b * 8) + j) % DISPLAY_WIDTH];
+                  if (*screen_pixel) register_[0xF] = 1;
+                  *screen_pixel ^= true;
+              }
+          }
+      }
   }
 }
 
