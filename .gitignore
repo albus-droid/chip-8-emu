@@ -2,3 +2,4 @@
 chip8
 .clangd
 *.dSYM
+build/
