@@ -39,7 +39,7 @@ void Chip8::TableOpCode()
     table8[0x7] = &Chip8::OP_8xy7;
     table8[0xE] = &Chip8::OP_8xyE;
 
-    tableE[0x0] = &Chip8::OP_ExA1;
+    tableE[0x1] = &Chip8::OP_ExA1;
     tableE[0xE] = &Chip8::OP_Ex9E;
 
     for (size_t i = 0; i <= 0x65; i++) {

@@ -110,8 +110,6 @@ void Chip8::OP_8xy5() {
 
 void Chip8::OP_8xy6() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
-  uint8_t y = (opcode_ & 0x00F0u) >> 4;
-  register_[x] = register_[y];
   register_[0xF] = (register_[x] & 0x01u);
   register_[x] >>= 1;
 }
@@ -131,8 +129,6 @@ void Chip8::OP_8xy7() {
 
 void Chip8::OP_8xyE() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
-  uint8_t y = (opcode_ & 0x00F0u) >> 4;
-  register_[x] = register_[y];
   register_[0xF] = (register_[x] & 0x80u) >> 7;
   register_[x] <<= 1;
 }
@@ -192,7 +188,6 @@ void Chip8::OP_Dxyn() {
 void Chip8::OP_Ex9E() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
   uint8_t key = register_[x];
-
   if (keys_[key]) {
       program_counter += 2;
   }
@@ -201,7 +196,6 @@ void Chip8::OP_Ex9E() {
 void Chip8::OP_ExA1() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
   uint8_t key = register_[x];
-
   if (!keys_[key]) {
       program_counter += 2;
   }
