@@ -1,49 +1,39 @@
-#include "chip8.h"
-#include "fontset.h"
-
+#include <chrono>
 #include <iostream>
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        std::cerr << "Usage: chip8-emu <rom_file>" << std::endl;
-        return 1;
+#include "chip8.h"
+#include "window.h"
+
+int main(int argc,char **argv) {
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " <rom_file>" << std::endl;
+        return 0;
     }
 
+    char *rom_file = argv[1];
+
+    Window window("Chip8", 640, 320, 64, 32);
     Chip8 chip8;
-    chip8.LoadROM(argv[1]);
 
-    std::cout << "First 20 bytes from 0x200:" << std::endl;
-    for (int i = 0; i < 20; i++) {
-        std::cout << std::hex << (int)(chip8.memory_[i + 0x200]) << " ";
-    }
-    std::cout << std::endl;
+    chip8.LoadROM(rom_file);
 
-    std::cout << "First 10 opcodes:" << std::endl;
-    for (int i = 0; i < 10; i++) {
-        chip8.Cycle();
-    }
-    std::cout << std::endl;
+    int video_pitch = sizeof(chip8.display_[0][0]) * 64;
+    auto last_time = std::chrono::high_resolution_clock::now();
+    bool quit = false;
 
-    std::cout << "Fontset loaded:" << std::endl;
-
-    const char* labels = "0123456789ABCDEF";
-
-    for (unsigned int i = 0; i < 16; i++) {
-        std::cout << labels[i] << ":\n";
-        for (int row = 0; row < 5; row++) {
-            uint8_t byte = chip8.memory_[FONTSET_START_ADDRESS + i * 5 + row];
-            for (int bit = 7; bit >= 0; bit--) {
-                std::cout << ((byte >> bit) & 1 ? "█" : " ");
-            }
-            std::cout << std::endl;
+    while (!quit) {
+        quit = window.ProcessInput(chip8.keys_);
+        auto current_time = std::chrono::high_resolution_clock::now();
+        float delta = std::chrono::duration<float, std::chrono::milliseconds::period>(current_time - last_time).count();
+        if (delta >= 1 ) {
+            last_time = current_time;
+            chip8.Cycle();
+            uint32_t pixels[32][64];
+            for (int y = 0; y < 32; y++)
+                for (int x = 0; x < 64; x++)
+                    pixels[y][x] = chip8.display_[y][x] ? 0xFFFFFFFF : 0x00000000 ;
+            window.UpdateWindow(pixels, sizeof(pixels[0][0]) * 64);
         }
-        std::cout << std::endl;
     }
-
-    std::cout << "Random Generator: " << std::endl;
-    for (int i = 0; i < 10; i++) {
-        std::cout << chip8.dist_(chip8.rng_) << " ";
-    }
-    std::cout << std::endl;
     return 0;
 }

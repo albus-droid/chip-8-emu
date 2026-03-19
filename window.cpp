@@ -8,7 +8,8 @@ Window::Window(char const* title, int windowWidth, int windowHeight, int texture
     SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow(title, 0, 0, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, textureWidth, textureHeight);
+    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+                                SDL_TEXTUREACCESS_STREAMING, textureWidth, textureHeight);
 }
 Window::~Window() {
     SDL_DestroyTexture(texture);
@@ -24,7 +25,7 @@ void Window::UpdateWindow(void const* buffer, int pitch) {
     SDL_RenderPresent(renderer);
 }
 
-bool Window::ProcessInput(uint8_t* keys) {
+bool Window::ProcessInput(bool* keys) {
     bool quit = false;
     SDL_Event event;
 

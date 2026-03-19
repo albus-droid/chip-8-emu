@@ -1,6 +1,7 @@
 #include "chip8.h"
 #include "fontset.h"
 #include <cstdint>
+#include <iostream>
 
 void Chip8::OP_00E0() {
    memset(display_, 0, sizeof(display_));
@@ -109,7 +110,8 @@ void Chip8::OP_8xy5() {
 
 void Chip8::OP_8xy6() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
-
+  uint8_t y = (opcode_ & 0x00F0u) >> 4;
+  register_[x] = register_[y];
   register_[0xF] = (register_[x] & 0x01u);
   register_[x] >>= 1;
 }
@@ -129,8 +131,9 @@ void Chip8::OP_8xy7() {
 
 void Chip8::OP_8xyE() {
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
-
-  register_[0xF] = (register_[x] & 0x01u) >> 0;
+  uint8_t y = (opcode_ & 0x00F0u) >> 4;
+  register_[x] = register_[y];
+  register_[0xF] = (register_[x] & 0x80u) >> 7;
   register_[x] <<= 1;
 }
 
@@ -161,6 +164,7 @@ void Chip8::OP_Cxkk() {
 }
 
 void Chip8::OP_Dxyn() {
+  std::cout << "Drawing sprite" << std::endl;
   uint8_t x = (opcode_ & 0x0F00u) >> 8;
   uint8_t y = (opcode_ & 0x00F0u) >> 4;
   uint8_t h = opcode_ & 0x000Fu;
@@ -174,7 +178,7 @@ void Chip8::OP_Dxyn() {
     uint8_t sprite = memory_[index_register + i];
     for (uint8_t j = 0; j < 8; ++j) {
         uint8_t sprite_pixel = sprite & (0x80u >> j);
-        bool* screen_pixel = &display_[wrap_y + i][wrap_x + j];
+        bool* screen_pixel = &display_[(wrap_y + i) % DISPLAY_HEIGHT][(wrap_x + j) % DISPLAY_WIDTH];
         if (sprite_pixel) {
             if (*screen_pixel == true) {
                 register_[0xF] = 1;
@@ -204,12 +208,12 @@ void Chip8::OP_ExA1() {
 }
 
 void Chip8::OP_Fx07() {
-    uint8_t x = (opcode_ & 0x0F00u);
+    uint8_t x = (opcode_ & 0x0F00u) >> 8;
     register_[x] = delay_timer;
 }
 
 void Chip8::OP_Fx0A() {
-    uint8_t x = (opcode_ & 0x0F00u);
+    uint8_t x = (opcode_ & 0x0F00u) >> 8;
     for (uint8_t i = 0; i < 16; ++i) {
         if (keys_[i]) {
             register_[x] = i;
