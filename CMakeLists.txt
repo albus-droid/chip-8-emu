@@ -15,3 +15,4 @@ add_executable(chip8
 
 target_include_directories(chip8 PRIVATE src ${SDL2_INCLUDE_DIRS})
 target_link_libraries(chip8 PRIVATE ${SDL2_LIBRARIES})
+target_compile_options(chip8 PRIVATE -Wall -Wextra -Wpedantic -Werror)

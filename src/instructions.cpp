@@ -2,6 +2,7 @@
 #include "fontset.h"
 #include <cstdint>
 #include <iostream>
+#include <cstring>
 
 void Chip8::OP_00E0() {
    memset(display_, 0, sizeof(display_));

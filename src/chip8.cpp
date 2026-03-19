@@ -40,7 +40,7 @@ void Chip8::LoadROM(const char* filename) {
     rom_file.read(buffer, rom_size);
     rom_file.close();
 
-    for (size_t i = 0; i < rom_size; ++i) {
+    for (size_t i = 0; i < static_cast<size_t>(rom_size); ++i) {
         memory_[START_ADDRESS + i] = buffer[i];
     }
 

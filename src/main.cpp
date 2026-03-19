@@ -17,7 +17,6 @@ int main(int argc,char **argv) {
 
     chip8.LoadROM(rom_file);
 
-    int video_pitch = sizeof(chip8.display_[0][0]) * 64;
     auto last_time = std::chrono::high_resolution_clock::now();
     bool quit = false;
 

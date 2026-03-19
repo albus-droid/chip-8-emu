@@ -3,3 +3,7 @@ chip8
 .clangd
 *.dSYM
 build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
